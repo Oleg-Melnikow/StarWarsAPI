@@ -1,0 +1,86 @@
+$grey: #aaa;
+body{
+  margin: 0;
+  padding: 0;
+}
+.wrap{
+background: #444;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 1.5rem;
+}
+
+button:hover{
+  color: #444;
+  background: $grey;
+}
+
+.nav{
+  justify-content: center !important;
+}
+
+.tab-content{
+  color: $grey;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: #6c757d !important;
+}
+
+.cardGroup, .filmsGroup, .peopleGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.card{
+  width: 15rem !important;
+  min-height: 17rem !important;
+  margin: .5rem;
+  background: url("https://coolwallpapers.me/picsup/1402962-star-wars-battlefront-2015.jpg") center/cover fixed no-repeat !important;
+  color: #444444 !important;
+
+  &-header{
+    padding: .5rem 1rem !important;
+  }
+  &-body{
+    padding: .75rem !important;
+  }
+  &-text, &-title{
+    margin: 0 !important;
+  }
+  .btnInfo{
+    position: absolute;
+    right: .75rem;
+    bottom: .75rem;
+  }
+}
+.card:last-child{
+  align-self: flex-start;
+}
+
+.filmsGroup{
+  .card {
+    width: 25rem !important;
+    min-height: 27rem !important;
+    background: #6c757d !important;
+    &-text:last-child{
+      padding-bottom: 10rem !important;
+    }
+  }
+}
+.peopleGroup{
+  .card {
+    width: 17rem !important;
+    background: url("https://vulcan.dl.playstation.net/img/cfn/11307eJdP774Z-SxyYf_oyKxQB066SsMhNFBAeKir-pTf89EfqcAsJFbxB7vJm8-F2xClwlxeLvMAbRi4FqwopyFUnUu_QuA.jpg") center/cover fixed no-repeat !important;
+    color: $grey !important;
+  }
+}
+.dropdown {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
