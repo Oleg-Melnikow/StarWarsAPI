@@ -15,7 +15,9 @@ const BaseURL = "https://swapi.dev/api/";
 
 const filmsGroup = createCardsBlock("div", "filmsGroup", films)
 
-let backdrop = document.createElement("div")
+let backdrop = document.createElement("div");
+
+let urlFormat = (url) => `https${url.substring(4)}`;
 
 function openModal(modal) {
     backdrop.classList.add("modal-backdrop", "fade", "show")
@@ -165,7 +167,7 @@ peopleTab.addEventListener("click", async function () {
     async function nextList(url) {
         console.log(res.next, res.count, res.previous);
         peopleGroup.innerHTML = "";
-
+        urlFormat(url)
         let response = await fetch(`${url}`);
         res = await response.json();
 
@@ -304,7 +306,7 @@ function cardCategory(category, property, modal) {
     if (category[property].length !== 0) {
         let list = modal.querySelector(`#${property}`)
         list.style.display = "block";
-        category[property].map(v => fetch(v).then(data => data.json())
+        category[property].map(v => fetch(urlFormat(v)).then(data => data.json())
             .then(function (res) {
                 let nameProperty = document.createElement("p");
                 nameProperty.textContent = `${res.name}`;
@@ -325,9 +327,9 @@ function dropdown(category, property, modal) {
                               </button>
                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>`
         let dropdownMenu = list.querySelector(".dropdown-menu");
-        console.log(dropdownMenu.children.length)
+
         list.querySelector("button").addEventListener("click",function () {
-            if(!dropdownMenu.children.length) category[property].map(v => fetch(v).then(data => data.json())
+            if(!dropdownMenu.children.length) category[property].map(v => fetch(urlFormat(v)).then(data => data.json())
                 .then(function (res) {
                     let nameProperty = document.createElement("a");
                     nameProperty.textContent = `${res.name}`;
@@ -350,8 +352,8 @@ function pagination(result, nextList, nextBtn, prevBtn, root) {
         let l = nextBtn.parentElement.previousSibling.textContent
         if (+l < length) nextBtn.parentNode.before(list);
     }
-    nextBtn.addEventListener("click", () => nextList(result.next))
-    prevBtn.addEventListener("click", () => nextList(result.previous))
+    nextBtn.addEventListener("click", () => nextList(urlFormat(result.next)))
+    prevBtn.addEventListener("click", () => nextList(urlFormat(result.previous)))
 }
 
 function disabledBtn(next, button) {
