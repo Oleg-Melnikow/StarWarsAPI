@@ -79,8 +79,18 @@ button:hover{
     background: url("https://vulcan.dl.playstation.net/img/cfn/11307eJdP774Z-SxyYf_oyKxQB066SsMhNFBAeKir-pTf89EfqcAsJFbxB7vJm8-F2xClwlxeLvMAbRi4FqwopyFUnUu_QuA.jpg") center/cover fixed no-repeat !important;
     color: $grey !important;
   }
+  .card:last-child{
+   
+  }
 }
 .dropdown {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
+}
+
+.list-group-item{
+  cursor: pointer;
+}
+.list-group-item:hover{
+  background: #aaaaaa;
 }

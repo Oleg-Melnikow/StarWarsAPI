@@ -68,4 +68,10 @@ button:hover {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important; }
 
+.list-group-item {
+  cursor: pointer; }
+
+.list-group-item:hover {
+  background: #aaaaaa; }
+
 /*# sourceMappingURL=style.css.map */
