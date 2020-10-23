@@ -5,126 +5,119 @@
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
     <title>Star Wars</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="text/css" href="icon/cloneo.ico">
+    <link rel="icon" type="text/css" href="icon/clone.ico">
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="wrap">
-        <div class="container-fluid">
-            <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="films-tab" data-toggle="tab" href="#films" role="tab"
-                       aria-controls="films"
-                       aria-selected="true">Films</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="people-tab" data-toggle="tab" href="#people" role="tab" aria-controls="people"
-                       aria-selected="false">People</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="planets-tab" data-toggle="tab" href="#planets" role="tab"
-                       aria-controls="planets"
-                       aria-selected="false">Planets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="species-tab" data-toggle="tab" href="#species" role="tab"
-                       aria-controls="species"
-                       aria-selected="false">Species</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="starships-tab" data-toggle="tab" href="#starships" role="tab"
-                       aria-controls="starships"
-                       aria-selected="false">Starships</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="vehicles-tab" data-toggle="tab" href="#vehicles" role="tab"
-                       aria-controls="vehicles"
-                       aria-selected="false">Vehicles</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="films" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="d-flex justify-content-center">
-                        <div class="input-group  w-50">
-                            <input id="input-search" class="form-control" type="text" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                            <span class="input-group-text" id="search">
-                                <i class="fas fa-search" aria-hidden="true"></i>
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="people" role="tabpanel" aria-labelledby="profile-tab">
-
-                </div>
-                <div class="tab-pane fade" id="planets" role="tabpanel" aria-labelledby="contact-tab">
-                    <!--<nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <button id="prev" class="page-link bg-dark text-white">Previous</button>
-                            </li>
-                            <li class="page-item">
-                                <button id="next" class="page-link bg-dark text-white">Next</button>
-                            </li>
-                        </ul>
-                    </nav>-->
-                    <!--<div class="d-flex justify-content-center" id="preloader">
-                        <div class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>-->
-                </div>
-                <div class="tab-pane fade" id="species" role="tabpanel" aria-labelledby="profile-tab">
-
-                </div>
-                <div class="tab-pane fade" id="starships" role="tabpanel" aria-labelledby="profile-tab">
-
-                </div>
-                <div class="tab-pane fade" id="vehicles" role="tabpanel" aria-labelledby="profile-tab">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Modal-->
-    <div class="modal fade" id="modal-example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm exit" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--pagination-->
-    <nav aria-label="Page navigation example" style="display: none">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <button id="prev" class="page-link bg-dark text-white">Previous</button>
+<div class="wrap">
+    <div class="container-fluid">
+        <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="films-tab" data-toggle="tab" href="#films" role="tab"
+                   aria-controls="films"
+                   aria-selected="true">Films</a>
             </li>
-            <li class="page-item">
-                <button id="next" class="page-link bg-dark text-white">Next</button>
+            <li class="nav-item">
+                <a class="nav-link" id="people-tab" data-toggle="tab" href="#people" role="tab" aria-controls="people"
+                   aria-selected="false">People</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="planets-tab" data-toggle="tab" href="#planets" role="tab"
+                   aria-controls="planets"
+                   aria-selected="false">Planets</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="species-tab" data-toggle="tab" href="#species" role="tab"
+                   aria-controls="species"
+                   aria-selected="false">Species</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="starships-tab" data-toggle="tab" href="#starships" role="tab"
+                   aria-controls="starships"
+                   aria-selected="false">Starships</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="vehicles-tab" data-toggle="tab" href="#vehicles" role="tab"
+                   aria-controls="vehicles"
+                   aria-selected="false">Vehicles</a>
             </li>
         </ul>
-    </nav>
-    <script src="swapi.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="films" role="tabpanel" aria-labelledby="home-tab">
+
+            </div>
+            <div class="tab-pane fade" id="people" role="tabpanel" aria-labelledby="profile-tab">
+
+            </div>
+            <div class="tab-pane fade" id="planets" role="tabpanel" aria-labelledby="contact-tab">
+                <!--<div class="d-flex justify-content-center" id="preloader">
+                    <div class="spinner-border text-light" style="width: 5rem; height: 5rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>-->
+            </div>
+            <div class="tab-pane fade" id="species" role="tabpanel" aria-labelledby="profile-tab">
+
+            </div>
+            <div class="tab-pane fade" id="starships" role="tabpanel" aria-labelledby="profile-tab">
+
+            </div>
+            <div class="tab-pane fade" id="vehicles" role="tabpanel" aria-labelledby="profile-tab">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal-->
+<div class="modal fade" id="modal-example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm exit" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--pagination-->
+<nav aria-label="Page navigation example" style="display: none">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <button id="prev" class="page-link bg-dark text-white">Previous</button>
+        </li>
+        <li class="page-item">
+            <button id="next" class="page-link bg-dark text-white">Next</button>
+        </li>
+    </ul>
+</nav>
+
+<div class="justify-content-center search-block" style="display: none">
+    <div class="input-group  w-50">
+        <input class="form-control input-search" type="text" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+            <span class="input-group-text" id="search">
+                <i class="fas fa-search" aria-hidden="true"></i>
+            </span>
+        </div>
+    </div>
+</div>
+<script src="swapi.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

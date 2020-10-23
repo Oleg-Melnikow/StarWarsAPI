@@ -6,11 +6,10 @@ const planetsTab = document.getElementById("planets-tab");
 const planets = document.getElementById("planets");
 const paginator = document.querySelector("nav");
 
-const preloader = document.getElementById("preloader");
-const inputSearch = document.getElementById("input-search");
+//const preloader = document.getElementById("preloader");
 const modalExample = document.getElementById("modal-example")
 
-const searchBtn = document.getElementById("search")
+const searchBlock = document.querySelector(".search-block")
 const BaseURL = "https://swapi.dev/api/";
 
 const filmsGroup = createCardsBlock("div", "filmsGroup", films)
@@ -72,12 +71,11 @@ function modalBlock(film) {
             <p class="card-text">Describe: ${film.opening_crawl}</p>
             <p class="card-text">Created: ${transformDate(film.created)}</p>
             <p class="card-text">Edited: ${transformDate(film.edited)}</p>
-            <div id="starships" class="list-group" style="display: none">Starships:</div>
-            <div id="characters" class="list-group" style="display: none">Characters:</div>
-            <div id="vehicles" class="list-group" style="display: none"> Vehicles:</div>
     `
     cardCategory(film, "starships", modal)
-    cardCategory(film, "characters", modal);
+    cardCategory(film, "characters", modal, modalPeople, closeModal);
+    cardCategory(film, "species", modal);
+    cardCategory(film, "planets", modal, modalPlanet, closeModal);
     cardCategory(film, "vehicles", modal);
 
     btnClose(modal, closeModal)
@@ -95,15 +93,24 @@ function modalBlock(film) {
     openModal(modal)
 }
 
-document.addEventListener("keydown", function (event) {
-    if (event.code === "Enter") {
-        searchFilm()
-    }
-});
+function searchElement(root, searchRoot){
+    let search = searchBlock.cloneNode(true);
+    search.classList.add("d-flex")
+    if(!root.previousElementSibling) root.before(search)
+    const searchBtn = search.querySelector("#search")
+    const inputSearch = search.querySelector(".input-search");
+    searchBtn.addEventListener("click", () => searchRoot(inputSearch))
 
-searchBtn.addEventListener("click", () => searchFilm())
+    document.addEventListener("keydown", function (event) {
+        if (event.code === "Enter") {
+            searchRoot(inputSearch)
+        }
+    });
+}
 
-function searchFilm() {
+searchElement(filmsGroup, searchFilm)
+
+function searchFilm(inputSearch) {
     let getFilms = JSON.parse(localStorage.getItem("Films"));
     if (inputSearch.value !== "") {
         filmsGroup.innerHTML = "";
@@ -137,9 +144,21 @@ let getCardPeople = (people) => {
 
 function rootTab(tab, root, cardGroup, getCardRoot, modalRoot){
     tab.addEventListener("click", async function () {
-        let response = await fetch(`${BaseURL}${root}`);
-        let res = await response.json();
+        let res = null
+        let pageId = 1
+        searchElement(cardGroup, searchRoot)
+        if(!JSON.parse(localStorage.getItem(root))){
+            let response = await fetch(`${BaseURL}${root}/`);
+            res = await response.json();
+            getCard(res.results, getCardRoot, cardGroup, modalRoot)
+            localStorage.setItem(root,JSON.stringify([{id, value: res}]))
+            console.log(JSON.parse(localStorage.getItem(root)))
+        } else{
+            res =  JSON.parse(localStorage.getItem(root))[0].value
+        }
+
         getCard(res.results, getCardRoot, cardGroup, modalRoot)
+
         let nav = paginator.cloneNode(true);
         nav.style.display = "block";
         if(!cardGroup.nextElementSibling) cardGroup.after(nav)
@@ -147,21 +166,39 @@ function rootTab(tab, root, cardGroup, getCardRoot, modalRoot){
         const prevBtn = nav.querySelector("#prev")
         pagination(res, nextList, nextBtn, "people/");
         disabledBtn(res.previous, prevBtn);
-
-        async function nextList(url) {
+        async function nextList(url, id) {
+            let roots = JSON.parse(localStorage.getItem(root))
+            let exist = roots.some(el => el.id === id)
+            if(!exist){
+                let response = await fetch(url);
+                res = await response.json();
+                let local = JSON.parse(localStorage.getItem(root))
+                local = [...local, {id, value: res}]
+                localStorage.setItem(root,JSON.stringify(local))
+            } else {
+                res = roots.find(el => el.id === id).value
+            }
+            pageId = id
             cardGroup.innerHTML = "";
-            let response = await fetch(url);
-            res = await response.json();
             disabledBtn(res.next, nextBtn);
             disabledBtn(res.previous, prevBtn);
             getCard(res.results, getCardRoot, cardGroup, modalRoot)
         }
-        nextBtn.addEventListener("click", () => nextList(urlFormat(res.next)))
-        prevBtn.addEventListener("click", () => nextList(urlFormat(res.previous)))
+        nextBtn.addEventListener("click", () => nextList(urlFormat(res.next), pageId + 1))
+        prevBtn.addEventListener("click", () => nextList(urlFormat(res.previous), pageId - 1))
+        function searchRoot(inputSearch) {
+            if (inputSearch.value !== "") {
+                let getPerson = res.results.filter(root => root.name.toLowerCase() === inputSearch.value.toLowerCase())
+                getCard(getPerson, getCardRoot, cardGroup, modalRoot)
+            } else {
+                getCard(res.results, getCardRoot, cardGroup, modalRoot)
+            }
+            inputSearch.value = "";
+        }
     })
 }
 
-rootTab(peopleTab, "people/", peopleGroup, getCardPeople, modalPeople)
+rootTab(peopleTab, "people", peopleGroup, getCardPeople, modalPeople)
 
 function modalPeople(people) {
     let modal = modalExample.cloneNode(true);
@@ -177,9 +214,7 @@ function modalPeople(people) {
             <p class="card-text">Eye color: ${people.eye_color}</p>
             <p class="card-text">Hair color: ${people.hair_color}</p>
             <p class="card-text">Skin color: ${people.skin_color}</p>
-            <div id="vehicles" class="list-group" style="display: none"> Vehicles:</div>
             <div class="list-group" id="films" style="display: none">Films:</div>
-            <div class="list-group" id="starships" style="display: none">Starships:</div>
     `
     cardCategory(people, "vehicles", modal);
     cardCategory(people, "starships", modal);
@@ -213,9 +248,9 @@ let getCardPlanets = (planet) => {
     return div
 }
 
-rootTab(planetsTab, "planets/", cardGroup, getCardPlanets, modalPlanet)
+rootTab(planetsTab, "planets", cardGroup, getCardPlanets, modalPlanet)
 
-function getCard(result, getCardPeople, cardGroup, modal) {
+function getCard(result, getCardTab, cardGroup, modal) {
     cardGroup.innerHTML = "";
     result.map(el => {
         const card = createCardsBlock("div", "card", cardGroup);
@@ -232,49 +267,32 @@ function getCard(result, getCardPeople, cardGroup, modal) {
         infoBtn.addEventListener("click", function () {
             modal(el)
         })
-        infoBtn.before(getCardPeople(el))
+        infoBtn.before(getCardTab(el))
     })
 }
 
-function cardCategory(category, property, modal) {
+function cardCategory(category, property, modal, modalRoot, closeModal) {
     if (category[property].length !== 0) {
-        let list = modal.querySelector(`#${property}`)
+        let list = document.createElement("div")
+        list.classList.add("list-group")
+        list.id = property
+        list.textContent = `${upperCase(property)}:`
+        modal.querySelector(".modal-body").append(list)
         list.style.display = "block";
         category[property].map(v => fetch(urlFormat(v)).then(data => data.json())
             .then(function (res) {
                 let nameProperty = document.createElement("p");
                 nameProperty.textContent = `${res.name}`;
                 nameProperty.classList.add("list-group-item");
-                nameProperty.addEventListener("click", () => console.log(res));
+                nameProperty.addEventListener("click", () => {
+                    closeModal(modal)
+                    modalRoot(res)
+                });
                 list.append(nameProperty);
             })
         )
     }
 }
-
-/*function dropdown(category, property, modal) {
-    if (category[property].length !== 0) {
-        let list = modal.querySelector(`#${property}`)
-        list.innerHTML = `<button class="btn btn-secondary dropdown-toggle" 
-                                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ${property}
-                              </button>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>`
-        let dropdownMenu = list.querySelector(".dropdown-menu");
-
-        list.querySelector("button").addEventListener("click",function () {
-            if(!dropdownMenu.children.length) category[property].map(v => fetch(urlFormat(v)).then(data => data.json())
-                .then(function (res) {
-                    let nameProperty = document.createElement("a");
-                    nameProperty.textContent = `${res.name}`;
-                    nameProperty.classList.add("dropdown-item");
-                    nameProperty.addEventListener("click", () => console.log(res));
-                    dropdownMenu.append(nameProperty);
-                })
-            )}
-        )
-    }
-}*/
 
 function pagination(result, nextList, nextBtn, root) {
     let length = Math.ceil(result.count / 10);
@@ -282,7 +300,7 @@ function pagination(result, nextList, nextBtn, root) {
         let list = document.createElement("li");
         list.classList.add("page-item", "number");
         list.innerHTML = `<button class="page-link bg-dark text-white">${i}</button>`
-        list.querySelector("button").addEventListener("click", () => nextList(`${BaseURL}${root}?page=${i}`))
+        list.querySelector("button").addEventListener("click", () => nextList(`${BaseURL}${root}?page=${i}`, i))
         let l = nextBtn.parentElement.previousSibling.textContent
         if (+l < length) nextBtn.parentNode.before(list);
     }
@@ -316,10 +334,9 @@ function modalPlanet(planet) {
              <p class="card-text">Rotation period: ${planet.rotation_period}</p>
              <p class="card-text">Surface water: ${planet.surface_water}</p>
              <div class="list-group" id="films" style="display: none">Films:</div>
-             <div class="list-group" id="residents" style="display: none">Residents:</div>
     `
-
-    cardCategory(planet, "residents", modal);
+    
+    cardCategory(planet, "residents", modal, modalPeople, closeModal);
 
     filmModal(planet, modal, closeModal)
     btnClose(modal, closeModal)
@@ -379,4 +396,9 @@ function transformDate(date) {
         time;
     time = `${year}-${month}-${day}, ${hours}: ${min}`;
     return time;
+}
+
+function upperCase(str) {
+    if (!str) return str;
+    return str[0].toUpperCase() + str.slice(1);
 }
