@@ -30,7 +30,8 @@ button:hover{
   background-color: #6c757d !important;
 }
 
-.planetsGroup, .filmsGroup, .peopleGroup, .speciesGroup {
+.planetsGroup, .filmsGroup, .peopleGroup,
+.speciesGroup, .starshipsGroup, .vehiclesGroup {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -85,6 +86,20 @@ button:hover{
     width: 17rem !important;
     background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/826040f5-466d-4fe5-ad72-dbcdfd174c26/dcmey63-5338ac1d-ac70-4892-b576-4cb5f304e6f7.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi84MjYwNDBmNS00NjZkLTRmZTUtYWQ3Mi1kYmNkZmQxNzRjMjYvZGNtZXk2My01MzM4YWMxZC1hYzcwLTQ4OTItYjU3Ni00Y2I1ZjMwNGU2ZjcucG5nIn1dXX0.fYCJmT2ENprIcEwB3NFg2nOHtErmJ79lCvMeJZE7Zm4") center/cover fixed no-repeat !important;
     color: #ffd900 !important;
+  }
+}
+.starshipsGroup{
+  .card {
+    width: 17rem !important;
+    background: url("https://rozetked.me/images/uploads/0AEPvORrS2RH.jpg") center/cover fixed no-repeat !important;
+    color: #aaa !important;
+  }
+}
+.vehiclesGroup{
+  .card {
+    width: 17rem !important;
+    background: url("https://img1.goodfon.ru/original/1920x1080/0/59/star-wars-zvezdnye-voyny-2520.jpg") center/cover fixed no-repeat !important;
+    color: #aaa !important;
   }
 }
 .dropdown {

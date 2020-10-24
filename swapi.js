@@ -6,9 +6,12 @@ const planetsTab = document.getElementById("planets-tab");
 const planets = document.getElementById("planets");
 const speciesTab = document.getElementById("species-tab");
 const species = document.getElementById("species");
+const starshipsTab = document.getElementById("starships-tab");
+const starships = document.getElementById("starships");
+const vehiclesTab = document.getElementById("vehicles-tab");
+const vehicles = document.getElementById("vehicles");
 const paginator = document.querySelector("nav");
 
-//const preloader = document.getElementById("preloader");
 const modalExample = document.getElementById("modal-example")
 
 const searchBlock = document.querySelector(".search-block")
@@ -74,11 +77,11 @@ function modalBlock(film) {
             <p class="card-text">Created: ${transformDate(film.created)}</p>
             <p class="card-text">Edited: ${transformDate(film.edited)}</p>
     `
-    cardCategory(film, "starships", modal)
+    cardCategory(film, "starships", modal, modalRoot, closeModal, modalDataStarships)
     cardCategory(film, "characters", modal, modalRoot, closeModal, modalDataPeople);
     cardCategory(film, "species", modal, modalRoot, closeModal, modalDataSpecies);
     cardCategory(film, "planets", modal, modalRoot, closeModal, modalDataPlanet);
-    cardCategory(film, "vehicles", modal);
+    cardCategory(film, "vehicles", modal, modalRoot, closeModal, modalDataVehicles);
 
     btnClose(modal, closeModal)
 
@@ -157,8 +160,8 @@ function modalDataPeople(root, modal, closeModal) {
             <p class="card-text">Skin color: ${root.skin_color}</p>
             <div class="list-group" id="films" style="display: none">Films:</div>
     `
-    cardCategory(root, "vehicles", modal);
-    cardCategory(root, "starships", modal);
+    cardCategory(root, "vehicles", modal, modalRoot, closeModal, modalDataVehicles);
+    cardCategory(root, "starships", modal, modalRoot, closeModal, modalDataStarships);
     cardCategory(root, "species", modal, modalRoot, closeModal, modalDataSpecies);
 }
 
@@ -225,6 +228,74 @@ function modalDataSpecies(root, modal, closeModal) {
 
 rootTab(speciesTab, "species", speciesGroup, getCardSpecies, modalRoot, modalDataSpecies)
 
+const starshipsGroup = createCardsBlock("div", "starshipsGroup", starships);
+
+let getCardStarships = (root) => {
+    let div = document.createElement("div");
+    div.innerHTML = `<p class="card-text">Model: ${root.model}</p>
+                     <p class="card-text">Manufacturer: ${root.manufacturer}</p>
+                     <p class="card-text">Starship class: ${root.starship_class}</p>
+                     <p class="card-text">Passengers: ${root.passengers}</p>
+                    `
+    return div
+}
+
+function modalDataStarships(root, modal, closeModal) {
+    modal.querySelector(".modal-body").innerHTML = `
+             <p class="card-text">Model: ${root.model}</p>
+             <p class="card-text">Manufacturer: ${root.manufacturer}</p>
+             <p class="card-text">Starship class: ${root.starship_class}</p>
+             <p class="card-text">Passengers: ${root.passengers}</p>
+             <p class="card-text">Hyperdrive rating: ${root.hyperdrive_rating}</p>
+             <p class="card-text">Max atmosphering speed: ${root.max_atmosphering_speed}</p>
+             <p class="card-text">Crew: ${root.crew}</p>
+             <p class="card-text">Consumables: ${root.consumables}</p>
+             <p class="card-text">Cost in credits: ${root.cost_in_credits}</p>
+             <p class="card-text">Length: ${root.length}</p>
+             <p class="card-text">Created: ${transformDate(root.created)}</p>
+             <p class="card-text">Edited: ${transformDate(root.edited)}</p>
+             <div class="list-group" id="films" style="display: none">Films:</div>
+    `
+    cardCategory(root, "pilots", modal, modalRoot, closeModal, modalDataPeople)
+}
+
+rootTab(starshipsTab, "starships", starshipsGroup, getCardStarships, modalRoot, modalDataStarships)
+
+const vehiclesGroup = createCardsBlock("div", "vehiclesGroup", vehicles);
+
+let getCardVehicles = (root) => {
+    let div = document.createElement("div");
+    div.innerHTML = `<p class="card-text">Model: ${root.model}</p>
+                     <p class="card-text">Vehicle class: ${root.vehicle_class}</p>
+                     <p class="card-text">Manufacturer: ${root.manufacturer}</p>
+                     <p class="card-text">Passengers: ${root.passengers}</p>
+                     <p class="card-text">Cost in credits: ${root.cost_in_credits}</p>
+                    `
+    return div
+}
+
+function modalDataVehicles(root, modal, closeModal) {
+    modal.querySelector(".modal-body").innerHTML = `
+             <p class="card-text">Model: ${root.model}</p>
+             <p class="card-text">Manufacturer: ${root.manufacturer}</p>
+             <p class="card-text">Passengers: ${root.passengers}</p>
+             <p class="card-text">Cost in credits: ${root.cost_in_credits}</p>
+             <p class="card-text">Max atmosphering speed: ${root.max_atmosphering_speed}</p>
+             <p class="card-text">Crew: ${root.crew}</p>
+             <p class="card-text">Consumables: ${root.consumables}</p>
+             <p class="card-text">Cargo capacity: ${root.cargo_capacity}</p>
+             <p class="card-text">Cost in credits: ${root.cost_in_credits}</p>
+             <p class="card-text">Length: ${root.length}</p>
+             <p class="card-text">Created: ${transformDate(root.created)}</p>
+             <p class="card-text">Edited: ${transformDate(root.edited)}</p>
+             <div class="list-group" id="films" style="display: none">Films:</div>
+    `
+    cardCategory(root, "pilots", modal, modalRoot, closeModal, modalDataPeople)
+}
+
+rootTab(vehiclesTab, "vehicles", vehiclesGroup, getCardVehicles, modalRoot, modalDataVehicles)
+
+
 function rootTab(tab, root, cardGroup, getCardRoot, modalRoot, dataModal) {
     tab.addEventListener("click", async function () {
         let res = null
@@ -246,7 +317,7 @@ function rootTab(tab, root, cardGroup, getCardRoot, modalRoot, dataModal) {
         if (!cardGroup.nextElementSibling) cardGroup.after(nav)
         const nextBtn = nav.querySelector("#next");
         const prevBtn = nav.querySelector("#prev")
-        pagination(res, nextList, nextBtn, "people/");
+        pagination(res, nextList, nextBtn, `${root}/`);
         disabledBtn(res.previous, prevBtn);
 
         async function nextList(url, id) {
