@@ -4,6 +4,8 @@ const peopleTab = document.getElementById("people-tab");
 const people = document.getElementById("people");
 const planetsTab = document.getElementById("planets-tab");
 const planets = document.getElementById("planets");
+const speciesTab = document.getElementById("species-tab");
+const species = document.getElementById("species");
 const paginator = document.querySelector("nav");
 
 //const preloader = document.getElementById("preloader");
@@ -73,9 +75,9 @@ function modalBlock(film) {
             <p class="card-text">Edited: ${transformDate(film.edited)}</p>
     `
     cardCategory(film, "starships", modal)
-    cardCategory(film, "characters", modal, modalPeople, closeModal);
-    cardCategory(film, "species", modal);
-    cardCategory(film, "planets", modal, modalPlanet, closeModal);
+    cardCategory(film, "characters", modal, modalRoot, closeModal, modalDataPeople);
+    cardCategory(film, "species", modal, modalRoot, closeModal, modalDataSpecies);
+    cardCategory(film, "planets", modal, modalRoot, closeModal, modalDataPlanet);
     cardCategory(film, "vehicles", modal);
 
     btnClose(modal, closeModal)
@@ -93,10 +95,10 @@ function modalBlock(film) {
     openModal(modal)
 }
 
-function searchElement(root, searchRoot){
+function searchElement(root, searchRoot) {
     let search = searchBlock.cloneNode(true);
     search.classList.add("d-flex")
-    if(!root.previousElementSibling) root.before(search)
+    if (!root.previousElementSibling) root.before(search)
     const searchBtn = search.querySelector("#search")
     const inputSearch = search.querySelector(".input-search");
     searchBtn.addEventListener("click", () => searchRoot(inputSearch))
@@ -142,39 +144,120 @@ let getCardPeople = (people) => {
     return div
 }
 
-function rootTab(tab, root, cardGroup, getCardRoot, modalRoot){
+rootTab(peopleTab, "people", peopleGroup, getCardPeople, modalRoot, modalDataPeople)
+
+function modalDataPeople(root, modal, closeModal) {
+    modal.querySelector(".modal-body").innerHTML = `
+            <p class="card-text">Birth year: ${root.birth_year}</p>
+            <p class="card-text">Gender: ${root.gender}</p>
+            <p class="card-text">Height: ${root.height}</p>
+            <p class="card-text">Mass: ${root.mass}</p>
+            <p class="card-text">Eye color: ${root.eye_color}</p>
+            <p class="card-text">Hair color: ${root.hair_color}</p>
+            <p class="card-text">Skin color: ${root.skin_color}</p>
+            <div class="list-group" id="films" style="display: none">Films:</div>
+    `
+    cardCategory(root, "vehicles", modal);
+    cardCategory(root, "starships", modal);
+    cardCategory(root, "species", modal, modalRoot, closeModal, modalDataSpecies);
+}
+
+const planetsGroup = createCardsBlock("div", "planetsGroup", planets);
+
+let getCardPlanets = (planet) => {
+    let div = document.createElement("div");
+    div.innerHTML = `<p class="card-text">Climate: ${planet.climate}</p>
+                     <p class="card-text">Diameter: ${planet.diameter}</p>
+                     <p class="card-text">Population: ${planet.population}</p>
+                     <p class="card-text">Terrain: ${planet.terrain}</p>
+                     <p class="card-text">Orbital period: ${planet.orbital_period}</p>
+                    `
+    return div
+}
+
+rootTab(planetsTab, "planets", planetsGroup, getCardPlanets, modalRoot, modalDataPlanet)
+
+function modalDataPlanet(root, modal, closeModal) {
+    modal.querySelector(".modal-body").innerHTML = `
+            <p class="card-text">Climate: ${root.climate}</p>
+             <p class="card-text">Diameter: ${root.diameter}</p>
+             <p class="card-text">Population: ${root.population}</p>
+             <p class="card-text">Terrain: ${root.terrain}</p>
+             <p class="card-text">Created: ${transformDate(root.created)}</p>
+             <p class="card-text">Edited: ${transformDate(root.edited)}</p>
+             <p class="card-text">Gravity: ${root.gravity}</p>
+             <p class="card-text">Orbital period: ${root.orbital_period}</p>
+             <p class="card-text">Rotation period: ${root.rotation_period}</p>
+             <p class="card-text">Surface water: ${root.surface_water}</p>
+             <div class="list-group" id="films" style="display: none">Films:</div>
+    `
+    cardCategory(root, "residents", modal, modalRoot, closeModal, modalDataPeople)
+}
+
+const speciesGroup = createCardsBlock("div", "speciesGroup", species);
+
+let getCardSpecies = (species) => {
+    let div = document.createElement("div");
+    div.innerHTML = `<p class="card-text">Classification: ${species.classification}</p>
+                     <p class="card-text">Designation: ${species.designation}</p>
+                     <p class="card-text">Language: ${species.language}</p>
+                     <p class="card-text">Average lifespan: ${species.average_lifespan}</p>
+                    `
+    return div
+}
+
+function modalDataSpecies(root, modal, closeModal) {
+    modal.querySelector(".modal-body").innerHTML = `
+             <p class="card-text">Classification: ${root.classification}</p>
+             <p class="card-text">Designation: ${root.designation}</p>
+             <p class="card-text">Language: ${root.language}</p>
+             <p class="card-text">Average lifespan: ${root.average_lifespan}</p>
+             <p class="card-text">Average height: ${root.average_height}</p>
+             <p class="card-text">Eye colors: ${root.eye_colors}</p>
+             <p class="card-text">Hair colors: ${root.hair_colors}</p>
+             <p class="card-text">Skin colors: ${root.skin_colors}</p>
+             <p class="card-text">Created: ${transformDate(root.created)}</p>
+             <p class="card-text">Edited: ${transformDate(root.edited)}</p>
+             <div class="list-group" id="films" style="display: none">Films:</div>
+    `
+    cardCategory(root, "people", modal, modalRoot, closeModal, modalDataPeople)
+}
+
+rootTab(speciesTab, "species", speciesGroup, getCardSpecies, modalRoot, modalDataSpecies)
+
+function rootTab(tab, root, cardGroup, getCardRoot, modalRoot, dataModal) {
     tab.addEventListener("click", async function () {
         let res = null
         let pageId = 1
         searchElement(cardGroup, searchRoot)
-        if(!JSON.parse(localStorage.getItem(root))){
+        if (!JSON.parse(localStorage.getItem(root))) {
             let response = await fetch(`${BaseURL}${root}/`);
             res = await response.json();
-            getCard(res.results, getCardRoot, cardGroup, modalRoot)
-            localStorage.setItem(root,JSON.stringify([{id, value: res}]))
-            console.log(JSON.parse(localStorage.getItem(root)))
-        } else{
-            res =  JSON.parse(localStorage.getItem(root))[0].value
+            getCard(res.results, getCardRoot, cardGroup, modalRoot, dataModal)
+            localStorage.setItem(root, JSON.stringify([{id: pageId, value: res}]))
+        } else {
+            res = JSON.parse(localStorage.getItem(root))[0].value
         }
 
-        getCard(res.results, getCardRoot, cardGroup, modalRoot)
+        getCard(res.results, getCardRoot, cardGroup, modalRoot, dataModal)
 
         let nav = paginator.cloneNode(true);
         nav.style.display = "block";
-        if(!cardGroup.nextElementSibling) cardGroup.after(nav)
+        if (!cardGroup.nextElementSibling) cardGroup.after(nav)
         const nextBtn = nav.querySelector("#next");
         const prevBtn = nav.querySelector("#prev")
         pagination(res, nextList, nextBtn, "people/");
         disabledBtn(res.previous, prevBtn);
+
         async function nextList(url, id) {
             let roots = JSON.parse(localStorage.getItem(root))
             let exist = roots.some(el => el.id === id)
-            if(!exist){
+            if (!exist) {
                 let response = await fetch(url);
                 res = await response.json();
                 let local = JSON.parse(localStorage.getItem(root))
                 local = [...local, {id, value: res}]
-                localStorage.setItem(root,JSON.stringify(local))
+                localStorage.setItem(root, JSON.stringify(local))
             } else {
                 res = roots.find(el => el.id === id).value
             }
@@ -182,44 +265,33 @@ function rootTab(tab, root, cardGroup, getCardRoot, modalRoot){
             cardGroup.innerHTML = "";
             disabledBtn(res.next, nextBtn);
             disabledBtn(res.previous, prevBtn);
-            getCard(res.results, getCardRoot, cardGroup, modalRoot)
+            getCard(res.results, getCardRoot, cardGroup, modalRoot, dataModal)
         }
+
         nextBtn.addEventListener("click", () => nextList(urlFormat(res.next), pageId + 1))
         prevBtn.addEventListener("click", () => nextList(urlFormat(res.previous), pageId - 1))
+
         function searchRoot(inputSearch) {
             if (inputSearch.value !== "") {
                 let getPerson = res.results.filter(root => root.name.toLowerCase() === inputSearch.value.toLowerCase())
-                getCard(getPerson, getCardRoot, cardGroup, modalRoot)
+                getCard(getPerson, getCardRoot, cardGroup, modalRoot, dataModal)
             } else {
-                getCard(res.results, getCardRoot, cardGroup, modalRoot)
+                getCard(res.results, getCardRoot, cardGroup, modalRoot, dataModal)
             }
             inputSearch.value = "";
         }
     })
 }
 
-rootTab(peopleTab, "people", peopleGroup, getCardPeople, modalPeople)
-
-function modalPeople(people) {
+function modalRoot(root, dataModal) {
     let modal = modalExample.cloneNode(true);
     document.body.classList.add("modal-open");
     modal.classList.remove("fade");
     modal.style.display = "block";
-    modal.querySelector(".modal-title").textContent = people.name
-    modal.querySelector(".modal-body").innerHTML = `
-            <p class="card-text">Birth year: ${people.birth_year}</p>
-            <p class="card-text">Gender: ${people.gender}</p>
-            <p class="card-text">Height: ${people.height}</p>
-            <p class="card-text">Mass: ${people.mass}</p>
-            <p class="card-text">Eye color: ${people.eye_color}</p>
-            <p class="card-text">Hair color: ${people.hair_color}</p>
-            <p class="card-text">Skin color: ${people.skin_color}</p>
-            <div class="list-group" id="films" style="display: none">Films:</div>
-    `
-    cardCategory(people, "vehicles", modal);
-    cardCategory(people, "starships", modal);
+    modal.querySelector(".modal-title").textContent = root.name
+    dataModal(root, modal, closeModal)
 
-    filmModal(people, modal, closeModal)
+    filmModal(root, modal, closeModal)
     btnClose(modal, closeModal)
 
     document.addEventListener('keydown', event => {
@@ -235,22 +307,7 @@ function modalPeople(people) {
     openModal(modal)
 }
 
-const cardGroup = createCardsBlock("div", "cardGroup", planets);
-
-let getCardPlanets = (planet) => {
-    let div = document.createElement("div");
-    div.innerHTML = `<p class="card-text">Climate: ${planet.climate}</p>
-                     <p class="card-text">Diameter: ${planet.diameter}</p>
-                     <p class="card-text">Population: ${planet.population}</p>
-                     <p class="card-text">Terrain: ${planet.terrain}</p>
-                     <p class="card-text">Orbital period: ${planet.orbital_period}</p>
-                    `
-    return div
-}
-
-rootTab(planetsTab, "planets", cardGroup, getCardPlanets, modalPlanet)
-
-function getCard(result, getCardTab, cardGroup, modal) {
+function getCard(result, getCardRoot, cardGroup, modal, dataModal) {
     cardGroup.innerHTML = "";
     result.map(el => {
         const card = createCardsBlock("div", "card", cardGroup);
@@ -265,28 +322,28 @@ function getCard(result, getCardTab, cardGroup, modal) {
         `
         const infoBtn = card.querySelector(".btnInfo")
         infoBtn.addEventListener("click", function () {
-            modal(el)
+            modal(el, dataModal)
         })
-        infoBtn.before(getCardTab(el))
+        infoBtn.before(getCardRoot(el))
     })
 }
 
-function cardCategory(category, property, modal, modalRoot, closeModal) {
-    if (category[property].length !== 0) {
+function cardCategory(root, property, modal, modalRoot, closeModal, dataModal) {
+    if (root[property] !== null && root[property].length !== 0) {
         let list = document.createElement("div")
         list.classList.add("list-group")
         list.id = property
         list.textContent = `${upperCase(property)}:`
         modal.querySelector(".modal-body").append(list)
         list.style.display = "block";
-        category[property].map(v => fetch(urlFormat(v)).then(data => data.json())
+        root[property].map(v => fetch(urlFormat(v)).then(data => data.json())
             .then(function (res) {
                 let nameProperty = document.createElement("p");
                 nameProperty.textContent = `${res.name}`;
                 nameProperty.classList.add("list-group-item");
                 nameProperty.addEventListener("click", () => {
                     closeModal(modal)
-                    modalRoot(res)
+                    modalRoot(res, dataModal)
                 });
                 list.append(nameProperty);
             })
@@ -316,45 +373,7 @@ function disabledBtn(next, button) {
     }
 }
 
-function modalPlanet(planet) {
-    let modal = modalExample.cloneNode(true)
-    document.body.classList.add("modal-open");
-    modal.classList.remove("fade");
-    modal.style.display = "block";
-    modal.querySelector(".modal-title").textContent = planet.name
-    modal.querySelector(".modal-body").innerHTML = `
-             <p class="card-text">Climate: ${planet.climate}</p>
-             <p class="card-text">Diameter: ${planet.diameter}</p>
-             <p class="card-text">Population: ${planet.population}</p>
-             <p class="card-text">Terrain: ${planet.terrain}</p>
-             <p class="card-text">Created: ${transformDate(planet.created)}</p>
-             <p class="card-text">Edited: ${transformDate(planet.edited)}</p>
-             <p class="card-text">Gravity: ${planet.gravity}</p>
-             <p class="card-text">Orbital period: ${planet.orbital_period}</p>
-             <p class="card-text">Rotation period: ${planet.rotation_period}</p>
-             <p class="card-text">Surface water: ${planet.surface_water}</p>
-             <div class="list-group" id="films" style="display: none">Films:</div>
-    `
-    
-    cardCategory(planet, "residents", modal, modalPeople, closeModal);
-
-    filmModal(planet, modal, closeModal)
-    btnClose(modal, closeModal)
-
-    document.addEventListener('keydown', event => {
-        if (event.code === 'Escape') closeModal()
-    });
-
-    function closeModal() {
-        modal.remove();
-        backdrop.remove();
-        document.body.classList.remove("modal-open")
-    }
-
-    openModal(modal)
-}
-
-function filmModal(listName, modal, closeModal){
+function filmModal(listName, modal, closeModal) {
     if (listName.films.length !== 0) {
         let list = modal.querySelector(`#films`)
         list.style.display = "block"
@@ -394,6 +413,7 @@ function transformDate(date) {
         hours = d.getHours() - 3, // Конвертируем метку в часы
         min = ('0' + d.getMinutes()).slice(-2), // Конвертируем метку в минуты
         time;
+    if (hours < 0) hours += 24
     time = `${year}-${month}-${day}, ${hours}: ${min}`;
     return time;
 }
