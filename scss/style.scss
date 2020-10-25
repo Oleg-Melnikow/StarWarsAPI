@@ -6,6 +6,7 @@ body {
   padding: 0;
   background-color: #232741 !important;
 }
+
 #particles-js {
   position: relative;
   height: 100% !important;
@@ -25,7 +26,8 @@ canvas {
   vertical-align: bottom;
   z-index: 0;
 }
-.container-fluid{
+
+.container-fluid {
   z-index: 1;
 }
 
@@ -102,11 +104,13 @@ button:hover {
     background: url("image/bg-people.jpg") center/cover fixed no-repeat !important;
   }
 }
+
 .planetsGroup {
   .card {
     background: url("image/bg-planet.jpg") center/cover fixed no-repeat !important;
   }
 }
+
 .speciesGroup {
   .card {
     background: url("image/bg-species.jpg") center/cover fixed no-repeat !important;

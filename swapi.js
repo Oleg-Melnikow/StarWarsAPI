@@ -63,7 +63,7 @@ function getFilm(result) {
     })
 }
 
-function modalDataFilms(film, modal, closeModal){
+function modalDataFilms(film, modal, closeModal) {
     modal.querySelector(".modal-body").innerHTML = `
             <p class="card-text">Director: ${film.director}</p>
             <p class="card-text">Producer: ${film.producer}</p>
@@ -344,7 +344,7 @@ function modalRoot(root, dataModal) {
     modal.querySelector(".modal-title").textContent = root.name || root.title
     dataModal(root, modal, closeModal)
 
-    filmModal(root, modal, closeModal)
+    filmModal(root, modal, closeModal, dataModal)
     btnClose(modal, closeModal)
 
     document.addEventListener('keydown', event => {
@@ -382,7 +382,7 @@ function getCard(result, getCardRoot, cardGroup, modal, dataModal) {
 }
 
 function cardCategory(root, property, modal, modalRoot, closeModal, dataModal) {
-    if (root[property] !== null && root[property].length !== 0) {
+    if (root[property]) if (root[property].length !== 0) {
         let list = document.createElement("div")
         list.classList.add("list-group")
         list.id = property
@@ -427,7 +427,7 @@ function disabledBtn(next, button) {
 }
 
 function filmModal(listName, modal, closeModal) {
-    if(listName.films) if (listName.films.length !== 0) {
+    if (listName.films) if (listName.films.length !== 0) {
         let list = modal.querySelector(`#films`)
         list.style.display = "block"
         listName.films.map(function (film) {
@@ -438,9 +438,8 @@ function filmModal(listName, modal, closeModal) {
             filmElement.setAttribute("data-dismiss", "modal")
             list.append(filmElement);
             filmElement.addEventListener("click", function () {
-                console.log(getFilm.title, getFilm)
                 closeModal(modal)
-                modalBlock(getFilm)
+                modalRoot(getFilm, modalDataFilms)
             })
         })
     }
