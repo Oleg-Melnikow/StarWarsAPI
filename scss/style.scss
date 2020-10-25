@@ -1,10 +1,14 @@
 $grey: #aaa;
-body{
+$darkGray: #444;
+$bgColor: #6c757d;
+body {
   margin: 0;
   padding: 0;
+  background-color: #232741 !important;
 }
-.wrap{
-background: #444;
+#particles-js {
+  position: relative;
+  height: 100% !important;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -12,22 +16,34 @@ background: #444;
   width: 100%;
   min-height: 100vh;
   padding-top: 1.5rem;
+
 }
 
-button:hover{
-  color: #444;
+canvas {
+  display: block;
+  position: absolute;
+  vertical-align: bottom;
+  z-index: 0;
+}
+.container-fluid{
+  z-index: 1;
+}
+
+button:hover {
+  color: $darkGray;
   background: $grey;
 }
 
-.nav{
+.nav {
   justify-content: center !important;
 }
 
-.tab-content{
+.tab-content {
   color: $grey;
 }
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  background-color: #6c757d !important;
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: $bgColor !important;
 }
 
 .planetsGroup, .filmsGroup, .peopleGroup,
@@ -38,78 +54,87 @@ button:hover{
   justify-content: space-around;
   align-items: center;
 }
-.card{
-  width: 15rem !important;
+
+.card {
+  width: 17rem !important;
   min-height: 17rem !important;
   margin: .5rem;
-  background: url("https://coolwallpapers.me/picsup/1402962-star-wars-battlefront-2015.jpg") center/cover fixed no-repeat !important;
-  color: #444444 !important;
+  color: $grey !important;
 
-  &-header{
+  &-header {
     padding: .5rem 1rem !important;
   }
-  &-body{
+
+  &-body {
     padding: .75rem !important;
   }
-  &-text, &-title{
+
+  &-text, &-title {
     margin: 0 !important;
   }
-  .btnInfo{
+
+  .btnInfo {
     position: absolute;
     right: .75rem;
     bottom: .75rem;
   }
 }
-.card:last-child{
-  align-self: flex-start;
+
+.card:last-child {
+  //margin-right: auto !important;
 }
 
-.filmsGroup{
+.filmsGroup {
   .card {
     width: 25rem !important;
     min-height: 27rem !important;
-    background: #6c757d !important;
-    &-text:last-child{
+    background: $bgColor !important;
+    color: $darkGray !important;
+
+    &-text:last-child {
       padding-bottom: 10rem !important;
     }
   }
 }
-.peopleGroup{
+
+.peopleGroup {
   .card {
-    width: 17rem !important;
-    background: url("https://vulcan.dl.playstation.net/img/cfn/11307eJdP774Z-SxyYf_oyKxQB066SsMhNFBAeKir-pTf89EfqcAsJFbxB7vJm8-F2xClwlxeLvMAbRi4FqwopyFUnUu_QuA.jpg") center/cover fixed no-repeat !important;
-    color: $grey !important;
+    background: url("image/bg-people.jpg") center/cover fixed no-repeat !important;
   }
 }
-.speciesGroup{
+.planetsGroup {
   .card {
-    width: 17rem !important;
-    background: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/826040f5-466d-4fe5-ad72-dbcdfd174c26/dcmey63-5338ac1d-ac70-4892-b576-4cb5f304e6f7.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi84MjYwNDBmNS00NjZkLTRmZTUtYWQ3Mi1kYmNkZmQxNzRjMjYvZGNtZXk2My01MzM4YWMxZC1hYzcwLTQ4OTItYjU3Ni00Y2I1ZjMwNGU2ZjcucG5nIn1dXX0.fYCJmT2ENprIcEwB3NFg2nOHtErmJ79lCvMeJZE7Zm4") center/cover fixed no-repeat !important;
+    background: url("image/bg-people.jpg") center/cover fixed no-repeat !important;
+  }
+}
+.speciesGroup {
+  .card {
+    background: url("image/bg-species.png") center/cover fixed no-repeat !important;
     color: #ffd900 !important;
   }
 }
-.starshipsGroup{
+
+.starshipsGroup {
   .card {
-    width: 17rem !important;
-    background: url("https://rozetked.me/images/uploads/0AEPvORrS2RH.jpg") center/cover fixed no-repeat !important;
-    color: #aaa !important;
+    background: url("image/bg-starships.jpg") center/cover fixed no-repeat !important;
   }
 }
-.vehiclesGroup{
+
+.vehiclesGroup {
   .card {
-    width: 17rem !important;
-    background: url("https://img1.goodfon.ru/original/1920x1080/0/59/star-wars-zvezdnye-voyny-2520.jpg") center/cover fixed no-repeat !important;
-    color: #aaa !important;
+    background: url("image/bg-vehicles.jpg") center/cover fixed no-repeat !important;
   }
 }
+
 .dropdown {
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
 }
 
-.list-group-item{
+.list-group-item {
   cursor: pointer;
 }
-.list-group-item:hover{
-  background: #aaaaaa;
+
+.list-group-item:hover {
+  background: $grey;
 }

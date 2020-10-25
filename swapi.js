@@ -58,17 +58,12 @@ function getFilm(result) {
         `
         const infoBtn = filmCard.querySelector(".btnInfo")
         infoBtn.addEventListener("click", function () {
-            modalBlock(film)
+            modalRoot(film, modalDataFilms)
         })
     })
 }
 
-function modalBlock(film) {
-    let modal = modalExample.cloneNode(true);
-    document.body.classList.add("modal-open");
-    modal.classList.remove("fade");
-    modal.style.display = "block";
-    modal.querySelector(".modal-title").textContent = film.title
+function modalDataFilms(film, modal, closeModal){
     modal.querySelector(".modal-body").innerHTML = `
             <p class="card-text">Director: ${film.director}</p>
             <p class="card-text">Producer: ${film.producer}</p>
@@ -83,19 +78,6 @@ function modalBlock(film) {
     cardCategory(film, "planets", modal, modalRoot, closeModal, modalDataPlanet);
     cardCategory(film, "vehicles", modal, modalRoot, closeModal, modalDataVehicles);
 
-    btnClose(modal, closeModal)
-
-    document.addEventListener('keydown', event => {
-        if (event.code === 'Escape') closeModal()
-    });
-
-    function closeModal() {
-        modal.remove();
-        backdrop.remove();
-        document.body.classList.remove("modal-open")
-    }
-
-    openModal(modal)
 }
 
 function searchElement(root, searchRoot) {
@@ -359,7 +341,7 @@ function modalRoot(root, dataModal) {
     document.body.classList.add("modal-open");
     modal.classList.remove("fade");
     modal.style.display = "block";
-    modal.querySelector(".modal-title").textContent = root.name
+    modal.querySelector(".modal-title").textContent = root.name || root.title
     dataModal(root, modal, closeModal)
 
     filmModal(root, modal, closeModal)
@@ -445,7 +427,7 @@ function disabledBtn(next, button) {
 }
 
 function filmModal(listName, modal, closeModal) {
-    if (listName.films.length !== 0) {
+    if(listName.films) if (listName.films.length !== 0) {
         let list = modal.querySelector(`#films`)
         list.style.display = "block"
         listName.films.map(function (film) {
