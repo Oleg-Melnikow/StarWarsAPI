@@ -93,4 +93,22 @@ button:hover {
 .list-group-item:hover {
   background: #aaa; }
 
+@media (min-width: 320px) and (max-width: 550px) {
+  .search-block .w-50 {
+    width: 90% !important; }
+
+  .nav {
+    justify-content: space-around !important; }
+    .nav-item {
+      width: 33% !important;
+      text-align: center !important; }
+
+  .tab-pane .paginator {
+    display: flex !important;
+    width: 90% !important;
+    margin: 0 !important; }
+    .tab-pane .paginator .pagination {
+      display: flex !important;
+      flex-wrap: wrap !important; } }
+
 /*# sourceMappingURL=style.css.map */

@@ -141,3 +141,24 @@ button:hover {
 .list-group-item:hover {
   background: $grey;
 }
+@media (min-width: 320px)  and (max-width: 550px) {
+  .search-block .w-50 {
+    width: 90% !important;
+  }
+  .nav{
+    justify-content: space-around !important;
+    &-item{
+      width: 33% !important;
+      text-align: center !important;
+    }
+  }
+  .tab-pane .paginator{
+    display: flex !important;
+    width: 90% !important;
+    margin: 0 !important;
+    .pagination {
+      display: flex !important;
+      flex-wrap: wrap !important;
+    }
+  }
+}
