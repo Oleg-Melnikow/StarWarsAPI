@@ -89,7 +89,7 @@ button:hover {
     width: 25rem !important;
     min-height: 27rem !important;
     background: $bgColor !important;
-    color: $darkGray !important;
+    color: #333 !important;
 
     &-text:last-child {
       padding-bottom: 10rem !important;
@@ -104,13 +104,12 @@ button:hover {
 }
 .planetsGroup {
   .card {
-    background: url("image/bg-people.jpg") center/cover fixed no-repeat !important;
+    background: url("image/bg-planet.jpg") center/cover fixed no-repeat !important;
   }
 }
 .speciesGroup {
   .card {
-    background: url("image/bg-species.png") center/cover fixed no-repeat !important;
-    color: #ffd900 !important;
+    background: url("image/bg-species.jpg") center/cover fixed no-repeat !important;
   }
 }
 
