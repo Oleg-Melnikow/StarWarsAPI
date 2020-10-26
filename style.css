@@ -65,8 +65,6 @@ button:hover {
   min-height: 27rem !important;
   background: #6c757d !important;
   color: #333 !important; }
-  .filmsGroup .card-text:last-child {
-    padding-bottom: 10rem !important; }
 
 .peopleGroup .card {
   background: url("image/bg-people.jpg") center/cover fixed no-repeat !important; }
@@ -105,10 +103,32 @@ button:hover {
 
   .tab-pane .paginator {
     display: flex !important;
-    width: 90% !important;
+    justify-content: center !important;
+    align-items: center !important;
     margin: 0 !important; }
     .tab-pane .paginator .pagination {
       display: flex !important;
-      flex-wrap: wrap !important; } }
+      flex-wrap: wrap !important; }
+
+  .card-body:last-child {
+    padding-bottom: 3rem !important; }
+
+  .page-item .page-link {
+    padding: .25rem .5rem !important; } }
+.disabled button {
+  opacity: 0.7 !important; }
+
+.not-found {
+  margin: .5rem;
+  padding: 1rem;
+  align-items: center;
+  font-size: 1.25rem;
+  text-align: center;
+  background: rgba(11, 11, 11, 0.5); }
+  .not-found p {
+    padding-left: .5rem;
+    margin: 0 !important; }
+  .not-found span {
+    font-size: 1.2rem; }
 
 /*# sourceMappingURL=style.css.map */

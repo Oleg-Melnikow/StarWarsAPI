@@ -101,7 +101,12 @@ function searchFilm(inputSearch) {
     let getFilms = JSON.parse(localStorage.getItem("Films"));
     if (inputSearch.value !== "") {
         filmsGroup.innerHTML = "";
-        getFilm(getFilms.results.filter(film => film.title.toLowerCase() === inputSearch.value.toLowerCase()))
+        let findBlock = getFilms.results.filter(film => film.title.toLowerCase() === inputSearch.value.toLowerCase())
+        if (findBlock.length) {
+            getFilm(findBlock)
+        } else {
+            filmsGroup.append(notFound())
+        }
     } else {
         filmsGroup.innerHTML = "";
         getFilm(getFilms.results)
@@ -326,9 +331,15 @@ function rootTab(tab, root, cardGroup, getCardRoot, modalRoot, dataModal) {
 
         function searchRoot(inputSearch) {
             if (inputSearch.value !== "") {
+                cardGroup.innerHTML = "";
                 let getPerson = res.results.filter(root => root.name.toLowerCase() === inputSearch.value.toLowerCase())
-                getCard(getPerson, getCardRoot, cardGroup, modalRoot, dataModal)
+                if (getPerson.length) {
+                    getCard(getPerson, getCardRoot, cardGroup, modalRoot, dataModal)
+                } else {
+                    cardGroup.append(notFound())
+                }
             } else {
+                cardGroup.innerHTML = "";
                 getCard(res.results, getCardRoot, cardGroup, modalRoot, dataModal)
             }
             inputSearch.value = "";
@@ -473,4 +484,14 @@ function transformDate(date) {
 function upperCase(str) {
     if (!str) return str;
     return str[0].toUpperCase() + str.slice(1);
+}
+
+function notFound() {
+    let notFound = document.createElement("div");
+    notFound.classList.add("d-flex", "w-50", "text-warning",
+        "justify-content-center", "rounded-pill", "not-found")
+    notFound.innerHTML = `
+                <span><i class="fas fa-exclamation-triangle"></i></span>
+                <p>Block is not found</p>`
+    return notFound
 }
